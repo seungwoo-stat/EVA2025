@@ -4,7 +4,7 @@ This repo contains team **SHSmultiscale**'s source code for the 14th Internation
 
 ## Overview
 
-- `SUMMER.rds` and `WINTER.rds` are datasets we have used in this data challenge. The datasets provided by the data challenge organizers were converted to 121440 x 25 (`SUMMER.rds`) and 119460 x 25 (`WINTER.rds`) numeric matrices, each consisting of the values for summer months (May--Oct.) and winter months (Nov.--Apr.). Each row represents a specific date, and each column represents one of the 25 cells.
+- `SUMMER.rds` and `WINTER.rds` are datasets we have used in this data challenge. The datasets provided by the data challenge organizers were converted to 121440 x 25 (`SUMMER.rds`) and 119460 x 25 (`WINTER.rds`) numeric matrices, each consisting of the values for summer months (May-Oct.) and winter months (Nov.-Apr.). Each row represents a specific date, and each column represents one of the 25 cells.
 
 - `Functions.R` contains all the functions for conducting the extremal PCA. We modified the code from the Supplemental Content B of Rohrbeck and Cooley (2023).
 
@@ -16,4 +16,4 @@ This repo contains team **SHSmultiscale**'s source code for the 14th Internation
 
 
 ## References
-- Rohrbeck, C. and Cooley, D. (2023). [Simulating flood event sets using extremal principal components](https://doi.org/10.1214/22-AOAS1672). *Ann. Appl. Stat.* **17**(2) 1333--1352.
+- Rohrbeck, C. and Cooley, D. (2023). [Simulating flood event sets using extremal principal components](https://doi.org/10.1214/22-AOAS1672). *Ann. Appl. Stat.* **17**(2) 1333-1352.
