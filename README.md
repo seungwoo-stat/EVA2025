@@ -10,9 +10,9 @@ This repo contains team **SHSmultiscale**'s source code for the 14th Internation
 
 - `Functions.R` contains all the functions for conducting the extremal PCA. We modified the code from the Supplemental Content B of Rohrbeck and Cooley (2023).
 
-- `EDA.R` reproduces the figures in Section 2.2.
+- `EDA.R` reproduces the figures in Section 2.2 of Kim et al. (2025).
 
-- `noise-reduce.R` reproduces the figure in Section 3.3.
+- `noise-reduce.R` reproduces the figure in Section 3.3 of Kim et al. (2025).
 
 - Run `m-bandwidth-select.R` to find the optimal number of PCs (m) and the bandwidth of the spherical kernel. Note that the computation is executed in parallel across a number of cores, whose number is set to 6. Modify the variable `cl` if needed.
 
@@ -22,4 +22,6 @@ This repo contains team **SHSmultiscale**'s source code for the 14th Internation
 
 
 ## References
+- Kim, K., Park S., Shin, H-Y., Choi J., Ha, J., Kim, J., Kwon, Y., Park, S., and Kang, S. (2025). Extremal PCA-based synthetic event generation for the inference of extreme precipitation. *Manuscript*.
+
 - Rohrbeck, C. and Cooley, D. (2023). [Simulating flood event sets using extremal principal components](https://doi.org/10.1214/22-AOAS1672). *Ann. Appl. Stat.* **17**(2) 1333-1352.
