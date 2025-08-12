@@ -22,6 +22,6 @@ This repo contains team **SHSmultiscale**'s source code for the 14th Internation
 
 
 ## References
-- Kim, K., Park S., Shin, H-Y., Choi J., Ha, J., Kim, J., Kwon, Y., Park, S., and Kang, S. (2025). Extremal PCA-based synthetic event generation for the inference of extreme precipitation. *Manuscript*.
+- Kim, K., Park, S., Shin, H-Y., Choi, J., Ha, J., Kim, J., Kwon, Y., Park, S., and Kang, S. (2025). Extremal PCA-based synthetic event generation for the inference of extreme precipitation. *Manuscript*.
 
 - Rohrbeck, C. and Cooley, D. (2023). [Simulating flood event sets using extremal principal components](https://doi.org/10.1214/22-AOAS1672). *Ann. Appl. Stat.* **17**(2) 1333-1352.
