@@ -2,6 +2,7 @@ library(ggplot2)
 library(zoo)
 library(evd)
 library(gridExtra)
+library(tibble)
 
 load("run1.RData")
 load("run2.RData")
@@ -51,7 +52,7 @@ time_index <- seq_along(rolling_q_90)
 # Plot
 par(mar=c(5,4.5,4,2)+0.1)
 plot(time_index, ts_data, pch = 16, col = "gray", main = "", 
-     xlab="time", ylab="precipitation", cex.lab=1.2)
+     xlab="Time (date)", ylab="Precipitation (Leadbetters)", cex.lab=1.2)
 lines(time_index, rolling_q_90, type = 'l', col = "red", lwd=2)
 lines(time_index, rolling_q_99, type = 'l', col = "blue", lwd=2)
 lines(time_index, rolling_q_999, type = 'l', col = "green", lwd=2)
@@ -75,7 +76,7 @@ rolling_q_99 <- rollapply(ts_data, width = window_size,
 period <- c((365*150+1) : (365*160)) # data from 2000 to 2009
 
 plot(time_index[period], ts_data[period], pch = 16, col = "gray", main = "", 
-     xlab="time", ylab="precipitation", cex.lab=1.2)
+     xlab="Time (date)", ylab="Precipitation (Leadbetters)", cex.lab=1.2)
 
 lines(time_index[period], rolling_q_99[period], type = 'l', col = "blue", lwd=2)
 
@@ -87,7 +88,7 @@ abline(v=365*c(150:160)+sum(ndays[1:10]), lty=2)
 legend("topright",
        legend = c(expression(tau == 0.99)),
        col = c("blue"),
-       lwd = 2)
+       lwd = 2, cex=1.3)
 
 
 
@@ -108,51 +109,49 @@ X <- rbind(collapse_grid(run1),
            collapse_grid(run4))
 # rm(list = c("run1","run2","run3","run4"))
 
-par(mfrow=c(1,3), mar=c(5,5,4,2)+0.1)
+par(mfrow=c(1,3), mar=c(5,2,4,2)+0.1, oma=c(0,4,0,0))  
 ## minimum of all cells (Final #1)
 extreme.level.minimum <- tapply(apply(X,1,min), rep(month.index, times = 165*4), 
                                 \(vec) quantile(vec, c(0.9,0.99,0.999,1)))
 extreme.level.minimum <- do.call("rbind", extreme.level.minimum)
 plot(1:12, extreme.level.minimum[,1], type = "l", ylim = c(0,1.7), lwd = 2, 
-     xaxt = "n", xlab = "Month", ylab = "Minimum of all 25 cells", cex.lab=1.5, col="red")
+     main = "(a) Minimum of all 25 cells", cex.main = 1.5,
+     xaxt = "n", xlab = "Month", ylab = "", cex.lab=1.5, col="red")
 axis(1, 1:12, 1:12, las=1)
 matlines(1:12, extreme.level.minimum[,-1], col=c("blue","green","magenta"), lty = 1, lwd = 2)
-abline(h = 1.7); text(2.5,1.7,labels = "1.7 Leadbetters", pos = 1, cex = 1.5)
+abline(h = 1.7); text(3,1.7,labels = "1.7 Leadbetters", pos = 1, cex = 1.5)
 abline(v = c(4.5,10.5), lty=2)
-legend("topright", legend = c("max", expression(tau == 0.999), expression(tau == 0.99), expression(tau == 0.9)), 
-       lwd = 2, col = c("red", "blue", "green","magenta")[4:1], cex=1.2)
+# legend("topright", legend = c("max", expression(tau == 0.999), expression(tau == 0.99), expression(tau == 0.9)), 
+#        lwd = 2, col = c("red", "blue", "green","magenta")[4:1], cex=1.2)
 
 ## X_(6) of all cells (Final #2)
 extreme.level.sixth <- tapply(apply(X,1,\(vec) sort(vec)[20]), rep(month.index, times = 165*4), 
                               \(vec) quantile(vec, c(0.9,0.99,0.999,1)))
 extreme.level.sixth <- do.call("rbind", extreme.level.sixth)
 plot(1:12, extreme.level.sixth[,1], type = "l", ylim = c(0,5.7), lwd = 2, 
-     xaxt = "n", xlab = "Month", ylab = "Sixth largest value among 25 cells", cex.lab=1.5, col="red")
+     main = "(b) Sixth largest among 25 cells", cex.main = 1.5,
+     xaxt = "n", xlab = "Month", ylab = "", cex.lab=1.5, col="red")
 axis(1, 1:12, 1:12, las=1)
 matlines(1:12, extreme.level.sixth[,-1], col=c("blue","green","magenta"), lty = 1, lwd = 2)
-abline(h = 5.7); text(2.5,5.7,labels = "5.7 Leadbetters", pos = 1, cex = 1.5)
+abline(h = 5.7); text(3,5.7,labels = "5.7 Leadbetters", pos = 1, cex = 1.5)
 abline(v = c(4.5,10.5), lty=2)
-legend("topright", legend = c("max", expression(tau == 0.999), expression(tau == 0.99), expression(tau == 0.9)), 
-       lwd = 2, col = c("red", "blue", "green","magenta")[4:1], cex=1.2)
+# legend("topright", legend = c("max", expression(tau == 0.999), expression(tau == 0.99), expression(tau == 0.9)), 
+#        lwd = 2, col = c("red", "blue", "green","magenta")[4:1], cex=1.2)
 
-## min(3rd largest on day1, 3rd largest on day2) (Final #3)
-extreme.level.conse2 <- 
-  rbind(cbind(X[1:60224,], X[2:60225,]),
-        cbind(X[60225 + 1:60224,], X[60225 + 2:60225,]),
-        cbind(X[60225 * 2 + 1:60224,], X[60225 * 2 + 2:60225,]),
-        cbind(X[60225 * 3 + 1:60224,], X[60225 * 3 + 2:60225,])) |>
-  apply(1, \(vec) min(sort(vec[1:25])[23], sort(vec[25+1:25])[23])) |> 
-  tapply(rep(rep(month.index, times = 165)[-1], times = 4), \(vec) quantile(vec, c(0.9,0.99,0.999,1)))
-extreme.level.conse2 <- do.call("rbind", extreme.level.conse2)
-plot(1:12, extreme.level.conse2[,1], type = "l", ylim = c(0,max(extreme.level.conse2)), lwd = 2, 
-     xaxt = "n", xlab = "Month", ylab = "Minimum of the third largest values on consecutive days", cex.lab=1.5, col="red")
+## X_(3) of all cells (Final #3)
+extreme.level.third <- tapply(apply(X,1,\(vec) sort(vec)[23]), rep(month.index, times = 165*4), 
+                              \(vec) quantile(vec, c(0.9,0.99,0.999,1)))
+extreme.level.third <- do.call("rbind", extreme.level.third)
+plot(1:12, extreme.level.third[,1], type = "l", ylim = c(0,8), lwd = 2, 
+     main = "(c) Third largest among 25 cells", cex.main = 1.5,
+     xaxt = "n", xlab = "Month", ylab = "", cex.lab=1.5, col="red")
 axis(1, 1:12, 1:12, las=1)
-matlines(1:12, extreme.level.conse2[,-1], col=c("blue","green","magenta"), lty = 1, lwd = 2)
-abline(h = 5); text(2.5,5,labels = "5 Leadbetters", pos = 3, cex = 1.5)
+matlines(1:12, extreme.level.third[,-1], col=c("blue","green","magenta"), lty = 1, lwd = 2)
+abline(h = 5); text(3,5,labels = "5 Leadbetters", pos = 1, cex = 1.5)
 abline(v = c(4.5,10.5), lty=2)
 legend("topright", legend = c("max", expression(tau == 0.999), expression(tau == 0.99), expression(tau == 0.9)), 
-       lwd = 2, col = c("red", "blue", "green","magenta")[4:1], cex=1.2)
-
+       lwd = 2, col = c("red", "blue", "green","magenta")[4:1], cex=1.5)
+mtext("Monthly quantiles (Leadbetters)", side=2, outer=TRUE, line=1)
 
 
 
@@ -169,38 +168,19 @@ df_chi <- tibble(
   chiupp = res_chi$chi[, 3]
 )
 
-df_chibar <- tibble(
-  quantile = res_chi$quantile,
-  chibar = res_chi$chibar[, 2],
-  chiblow = res_chi$chibar[, 1],
-  chibupp = res_chi$chibar[, 3]
-)
-
 # Plot for chi
 p_chi <- ggplot(df_chi, aes(x = df_chi$quantile, y = df_chi$chi)) +
   geom_line(color = "black") +
   geom_ribbon(aes(ymin = df_chi$chilow, ymax = df_chi$chiupp), alpha = 0.2, fill = "gray30") +
   xlim(0.5, 1) +
-  labs(title = expression(chi[1]), x = expression(u), y = expression(chi[1](u))) +
+  labs(title = "(a) Time lag of one day", x = expression(u), y = expression(chi[1](u))) +
   theme_minimal() +
   theme(
-    panel.grid.major = element_blank(),  # 플롯 내부 격자선 제거
-    panel.grid.minor = element_blank(),  # 플롯 내부 작은 격자선 제거
-    axis.line = element_line(color = "black"), # 축선 살리기
-    axis.ticks = element_line(color = "black") # 축 눈금 살리기
-  )
-
-p_chibar <- ggplot(df_chibar, aes(x = df_chibar$quantile, y = df_chibar$chibar)) +
-  geom_line(color = "black") +
-  geom_ribbon(aes(ymin = df_chibar$chiblow, ymax = df_chibar$chibupp), alpha = 0.2, fill = "gray30") +
-  xlim(0.5, 1) +
-  labs(title = expression(bar(chi)[1]), x = expression(u), y = expression(bar(chi)[1](u))) +
-  theme_minimal() +
-  theme(
-    panel.grid.major = element_blank(),  # 플롯 내부 격자선 제거
-    panel.grid.minor = element_blank(),  # 플롯 내부 작은 격자선 제거
-    axis.line = element_line(color = "black"), # 축선 살리기
-    axis.ticks = element_line(color = "black") # 축 눈금 살리기
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(), 
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"), 
+    plot.title = element_text(face = "bold", size = 20)
   )
 
 
@@ -215,39 +195,20 @@ df_chi2 <- tibble(
   chiupp = res_chi2$chi[, 3]
 )
 
-df_chibar2 <- tibble(
-  quantile = res_chi2$quantile,
-  chibar = res_chi2$chibar[, 2],
-  chiblow = res_chi2$chibar[, 1],
-  chibupp = res_chi2$chibar[, 3]
-)
-
 # Plot for chi
 p_chi2 <- ggplot(df_chi2, aes(x = df_chi2$quantile, y = df_chi2$chi)) +
   geom_line(color = "black") +
   geom_ribbon(aes(ymin = df_chi2$chilow, ymax = df_chi2$chiupp), alpha = 0.2, fill = "gray30") +
   xlim(0.5, 1) +
-  labs(title = expression(chi[2]), x = expression(u), y = expression(chi[2](u))) +
+  labs(title = "(b) Time lag of two days", x = expression(u), y = expression(chi[2](u))) +
   theme_minimal() +
   theme(
-    panel.grid.major = element_blank(),  # 플롯 내부 격자선 제거
-    panel.grid.minor = element_blank(),  # 플롯 내부 작은 격자선 제거
-    axis.line = element_line(color = "black"), # 축선 살리기
-    axis.ticks = element_line(color = "black") # 축 눈금 살리기
-  )
-
-p_chibar2 <- ggplot(df_chibar2, aes(x = df_chibar2$quantile, y = df_chibar2$chibar)) +
-  geom_line(color = "black") +
-  geom_ribbon(aes(ymin = df_chibar2$chiblow, ymax = df_chibar2$chibupp), alpha = 0.2, fill = "gray30") +
-  xlim(0.5, 1) +
-  labs(title = expression(bar(chi)[2]), x = expression(u), y = expression(bar(chi)[2](u))) +
-  theme_minimal() +
-  theme(
-    panel.grid.major = element_blank(),  # 플롯 내부 격자선 제거
-    panel.grid.minor = element_blank(),  # 플롯 내부 작은 격자선 제거
-    axis.line = element_line(color = "black"), # 축선 살리기
-    axis.ticks = element_line(color = "black") # 축 눈금 살리기
+    panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(), 
+    axis.line = element_line(color = "black"), 
+    axis.ticks = element_line(color = "black"),
+    plot.title = element_text(face = "bold", size = 20)
   )
 
 
-grid.arrange(p_chi, p_chibar, p_chi2, p_chibar2, ncol=4)
+grid.arrange(p_chi, p_chi2, ncol=2)
