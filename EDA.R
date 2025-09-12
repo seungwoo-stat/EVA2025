@@ -212,3 +212,63 @@ p_chi2 <- ggplot(df_chi2, aes(x = df_chi2$quantile, y = df_chi2$chi)) +
 
 
 grid.arrange(p_chi, p_chi2, ncol=2)
+
+
+## spatial tail dependence check ## 
+
+# (1,1) vs (1,2)
+res_chi_sp <- chiplot(cbind(run1[1,1,], run1[1,2,]))
+
+df_chi_sp <- tibble(
+  quantile = res_chi_sp$quantile,
+  chi = res_chi_sp$chi[, 2],
+  chilow = res_chi_sp$chi[, 1],
+  chiupp = res_chi_sp$chi[, 3]
+)
+
+# Plot for chi
+p_chi_sp <- ggplot(df_chi_sp, aes(x = df_chi_sp$quantile, y = df_chi_sp$chi)) +
+  geom_line(color = "black") +
+  geom_ribbon(aes(ymin = df_chi_sp$chilow, ymax = df_chi_sp$chiupp), alpha = 0.2, fill = "gray30") +
+  xlim(0.5, 1) +
+  labs(title = "(b) Cells (1,1) and (1,2)", x = expression(u), y = expression(chi(u))) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(), 
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"), 
+    plot.title = element_text(face = "bold", size = 15, hjust=0.5)
+  )
+
+
+# (1,1) vs (3,3)
+res_chi_sp2 <- chiplot(cbind(run1[1,1,], run1[3,3,]))
+
+df_chi_sp2 <- tibble(
+  quantile = res_chi_sp2$quantile,
+  chi = res_chi_sp2$chi[, 2],
+  chilow = res_chi_sp2$chi[, 1],
+  chiupp = res_chi_sp2$chi[, 3]
+)
+
+# Plot for chi
+p_chi_sp2 <- ggplot(df_chi_sp2, aes(x = df_chi_sp2$quantile, y = df_chi_sp2$chi)) +
+  geom_line(color = "black") +
+  geom_ribbon(aes(ymin = df_chi_sp2$chilow, ymax = df_chi_sp2$chiupp), alpha = 0.2, fill = "gray30") +
+  xlim(0.5, 1) +
+  labs(title = "(c) Cells (1,1) and (3,3)", x = expression(u), y = expression(chi(u))) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(), 
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"), 
+    plot.title = element_text(face = "bold", size = 15, hjust=0.5)
+  )
+
+
+
+grid.arrange(p_chi, p_chi_sp, p_chi_sp2, ncol=3)
+
+
