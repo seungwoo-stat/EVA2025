@@ -10,9 +10,15 @@ This repo contains team **SHSmultiscale**'s source code for the 14th Internation
 
 - `Functions.R` contains all the functions for conducting the extremal PCA. We modified the code from the Supplemental Content B of Rohrbeck and Cooley (2023).
 
-- `EDA.R` reproduces the figures in Section 2.2 of Kim et al. (2025).
+- Figures in Kim et al. (2025) are reproduced by the following files:
 
-- `noise-reduce.R` reproduces the figure in Section 3.3 of Kim et al. (2025).
+	- `EDA.R`: figures in Section 2.2.
+
+	- `noise-reduce.R`: the figure in Section 3.3.
+
+	- `TPDM.R`: the first figure in Section 4.
+
+	- `scatter-plots-extreme-events.R`: the second figure in Section 4.
 
 - Run `m-bandwidth-select.R` to find the optimal number of PCs (m) and the bandwidth of the spherical kernel. Note that the computation is executed in parallel across a number of cores, whose number is set to 6. Modify the variable `cl` if needed.
 
