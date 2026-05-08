@@ -42,13 +42,13 @@ k2=6
 ## Plot synthetic points
 ind <- which( sqrt( apply(X_tilde_samp^2, 1, sum) ) > r0 )
 
-plot( X_tilde_samp[ind,k1], X_tilde_samp[ind,k2], 
-      xlab=paste("Cell ","(1,1)"), ylab=paste("Cell ","(1,2)"), xlim=c(0,850), ylim=c(0,850), cex.lab=1,
+plot( log(X_tilde_samp[ind,k1]), log(X_tilde_samp[ind,k2]), 
+      xlab=paste("Cell ","(1,1)"), ylab=paste("Cell ","(1,2)"), xlim=c(0,log(3200)), ylim=c(0,log(3200)), cex.lab=1,
       cex.axis=1, cex=1, col=8, pch=19 , main="(a) Adjacent pair")
 
 ## Add original points
 ind <- which( sqrt( apply(X_tilde^2, 1, sum) ) > r0 )
-points( X_tilde[ind,k1], X_tilde[ind,k2], col = alpha(1, 1), pch=19, cex=0.8  )
+points( log(X_tilde[ind,k1]), log(X_tilde[ind,k2]), col = alpha(1, 0.6), pch=19, cex=0.8  )
 abline(0,1)
 legend("topleft",legend=c("Original","Generated"),col=c("black","grey"), pch=16, cex=1.0)
 
@@ -60,13 +60,13 @@ k2=13
 ## Plot synthetic points
 ind <- which( sqrt( apply(X_tilde_samp^2, 1, sum) ) > r0 )
 
-plot( X_tilde_samp[ind,k1], X_tilde_samp[ind,k2], 
-      xlab=paste("Cell ","(1,1)"), ylab=paste("Cell ","(3,3)"), xlim=c(0,850), ylim=c(0,850), cex.lab=1,
+plot( log(X_tilde_samp[ind,k1]), log(X_tilde_samp[ind,k2]), 
+      xlab=paste("Cell ","(1,1)"), ylab=paste("Cell ","(3,3)"), xlim=c(0,log(3200)), ylim=c(0,log(3200)), cex.lab=1,
       cex.axis=1, cex=1, col=8, pch=19, main = "(b) Distant pair" )
 
 ## Add Original points
 ind <- which( sqrt( apply(X_tilde^2, 1, sum) ) > r0 )
-points( X_tilde[ind,k1], X_tilde[ind,k2], col = alpha(1, 1), pch=19, cex=0.8  )
+points( log(X_tilde[ind,k1]), log(X_tilde[ind,k2]), col = alpha(1, 0.6), pch=19, cex=0.8  )
 abline(0,1)
 legend("topleft",legend=c("Original","Generated"),col=c("black","grey"), pch=16, cex=1.0)
 
