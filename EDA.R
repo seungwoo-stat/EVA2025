@@ -173,7 +173,7 @@ p_chi <- ggplot(df_chi, aes(x = df_chi$quantile, y = df_chi$chi)) +
   geom_line(color = "black") +
   geom_ribbon(aes(ymin = df_chi$chilow, ymax = df_chi$chiupp), alpha = 0.2, fill = "gray30") +
   xlim(0.5, 1) +
-  labs(title = "(a) Time lag of one day", x = expression(u), y = expression(chi[1](u))) +
+  labs(title = "(a) Time lag of one day", x = expression(u), y = expression(hat(chi)[1](u))) +
   theme_minimal() +
   theme(
     panel.grid.major = element_blank(),
@@ -200,7 +200,7 @@ p_chi2 <- ggplot(df_chi2, aes(x = df_chi2$quantile, y = df_chi2$chi)) +
   geom_line(color = "black") +
   geom_ribbon(aes(ymin = df_chi2$chilow, ymax = df_chi2$chiupp), alpha = 0.2, fill = "gray30") +
   xlim(0.5, 1) +
-  labs(title = "(b) Time lag of two days", x = expression(u), y = expression(chi[2](u))) +
+  labs(title = "(b) Time lag of two days", x = expression(u), y = expression(hat(chi)[2](u))) +
   theme_minimal() +
   theme(
     panel.grid.major = element_blank(), 
@@ -231,7 +231,7 @@ p_chi_sp <- ggplot(df_chi_sp, aes(x = df_chi_sp$quantile, y = df_chi_sp$chi)) +
   geom_line(color = "black") +
   geom_ribbon(aes(ymin = df_chi_sp$chilow, ymax = df_chi_sp$chiupp), alpha = 0.2, fill = "gray30") +
   xlim(0.5, 1) +
-  labs(title = "(b) Cells (1,1) and (1,2)", x = expression(u), y = expression(chi(u))) +
+  labs(title = "(b) Cells (1,1) and (1,2)", x = expression(u), y = expression(hat(chi)(u))) +
   theme_minimal() +
   theme(
     panel.grid.major = element_blank(),
@@ -257,7 +257,7 @@ p_chi_sp2 <- ggplot(df_chi_sp2, aes(x = df_chi_sp2$quantile, y = df_chi_sp2$chi)
   geom_line(color = "black") +
   geom_ribbon(aes(ymin = df_chi_sp2$chilow, ymax = df_chi_sp2$chiupp), alpha = 0.2, fill = "gray30") +
   xlim(0.5, 1) +
-  labs(title = "(c) Cells (1,1) and (3,3)", x = expression(u), y = expression(chi(u))) +
+  labs(title = "(c) Cells (1,1) and (3,3)", x = expression(u), y = expression(hat(chi)(u))) +
   theme_minimal() +
   theme(
     panel.grid.major = element_blank(),
